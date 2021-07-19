@@ -2,6 +2,7 @@ import 'package:calender/calendar_screen.dart';
 
 import 'package:calender/event_provider.dart';
 import 'package:calender/searchBar/serach_screen.dart';
+import 'package:calender/share/share_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +41,7 @@ class MainPage extends StatelessWidget {
         backgroundColor: Colors.pink,
         onPressed: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => SearchScreen()));
+              .push(MaterialPageRoute(builder: (context) => ShareData()));
         },
       ),
     );
