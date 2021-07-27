@@ -7,6 +7,7 @@ import 'package:calender/event_provider.dart';
 import 'package:calender/image_picker/image_picker.dart';
 import 'package:calender/searchBar/serach_screen.dart';
 import 'package:calender/share/share_data.dart';
+import 'package:calender/top_tab_bar/tabbed_top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -35,22 +36,18 @@ class MyApp extends StatelessWidget {
 class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Calender'),
-        centerTitle: true,
-      ),
-      body: CalenderScreen(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        backgroundColor: Colors.purple,
-        onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => ProfileScreen()));
-        },
-      ),
+      body: TabbedTopBar(),
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(
+      //     Icons.add,
+      //     color: Colors.white,
+      //   ),
+      //   backgroundColor: Colors.purple,
+      //   onPressed: () {
+      //     Navigator.of(context)
+      //         .push(MaterialPageRoute(builder: (context) => ProfileScreen()));
+      //   },
+      // ),
     );
   }
 }
