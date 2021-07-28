@@ -36,18 +36,18 @@ class MyApp extends StatelessWidget {
 class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TabbedTopBar(),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(
-      //     Icons.add,
-      //     color: Colors.white,
-      //   ),
-      //   backgroundColor: Colors.purple,
-      //   onPressed: () {
-      //     Navigator.of(context)
-      //         .push(MaterialPageRoute(builder: (context) => ProfileScreen()));
-      //   },
-      // ),
+      body: CalenderScreen(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.purple,
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => ProfileScreen()));
+        },
+      ),
     );
   }
 }

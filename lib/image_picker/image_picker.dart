@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -14,17 +15,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
   File? _image = null;
   final picker = ImagePicker();
 
-  Future getImage(ImageSource source) async {
+  getImage(ImageSource source) async {
     final pickedFile = await picker.getImage(source: source);
-
+    File? cropedImage = await ImageCropper.cropImage(
+      sourcePath: pickedFile!.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.ratio16x9,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.square
+      ],
+      compressQuality: 60,
+      compressFormat: ImageCompressFormat.jpg,
+      androidUiSettings: androidUiSettingsLoked(),
+    );
     setState(() {
       if (pickedFile != null) {
-        _image = File(pickedFile.path);
+        _image = File(cropedImage!.path);
+        if (_image == null) {
+          print("null image");
+        }
       } else {
         print('No image selected.');
       }
+      Navigator.of(context).pop();
     });
   }
+
+  Future<File?> cropImage(File image) async => await ImageCropper.cropImage(
+        sourcePath: image.path,
+        aspectRatio: CropAspectRatio(ratioX: 16, ratioY: 9),
+        compressQuality: 60,
+        compressFormat: ImageCompressFormat.jpg,
+        androidUiSettings: androidUiSettingsLoked(),
+      );
+
+  AndroidUiSettings androidUiSettingsLoked() => AndroidUiSettings(
+        toolbarTitle: 'Crop Image',
+        toolbarColor: Colors.purple,
+        toolbarWidgetColor: Colors.white,
+        hideBottomControls: true,
+        lockAspectRatio: false,
+      );
 
   @override
   Widget build(BuildContext context) {
