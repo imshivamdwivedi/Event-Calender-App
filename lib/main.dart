@@ -18,6 +18,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -33,20 +34,188 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController animationController;
+  late Animation degOneTranslatiionAnimation,
+      degThreeTranslatiionAnimation,
+      degTwoTranslatiionAnimation;
+  late Animation rotateAnimation;
+
+  double getradiusFromDegree(double degeree) {
+    double unitRadius = 57.295779513;
+    return degeree / unitRadius;
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    animationController =
+        AnimationController(vsync: this, duration: Duration(microseconds: 250));
+    degOneTranslatiionAnimation = TweenSequence<double>([
+      TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 0.0, end: 1.2), weight: 75.0),
+      TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.2, end: 1.0), weight: 25.0)
+    ]).animate(animationController);
+    degTwoTranslatiionAnimation = TweenSequence<double>([
+      TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 0.0, end: 1.4), weight: 55.0),
+      TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.4, end: 1.0), weight: 45.0)
+    ]).animate(animationController);
+    degThreeTranslatiionAnimation = TweenSequence<double>([
+      TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 0.0, end: 1.75), weight: 35.0),
+      TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 1.75, end: 1.0), weight: 65.0)
+    ]).animate(animationController);
+    rotateAnimation = Tween<double>(begin: 180.0, end: 0.0).animate(
+        CurvedAnimation(parent: animationController, curve: Curves.easeOut));
+    super.initState();
+    animationController.addListener(() {
+      setState(() {});
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CalenderScreen(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        backgroundColor: Colors.purple,
-        onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => ProfileScreen()));
-        },
+      body: Stack(children: [
+        CalenderScreen(),
+        Positioned(
+            right: 30,
+            bottom: 30,
+            child: Stack(
+              children: [
+                Transform.translate(
+                  offset: Offset.fromDirection(getradiusFromDegree(180),
+                      degOneTranslatiionAnimation.value * 100),
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationZ(
+                        getradiusFromDegree(rotateAnimation.value))
+                      ..scale(degOneTranslatiionAnimation.value),
+                    child: CircularButton(
+                        width: 50,
+                        color: Colors.red,
+                        height: 50,
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                        onClick: () {}),
+                  ),
+                ),
+                Transform.translate(
+                  offset: Offset.fromDirection(getradiusFromDegree(225),
+                      degTwoTranslatiionAnimation.value * 100),
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationZ(
+                        getradiusFromDegree(rotateAnimation.value))
+                      ..scale(degTwoTranslatiionAnimation.value),
+                    child: CircularButton(
+                        width: 50,
+                        color: Colors.pink,
+                        height: 50,
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        ),
+                        onClick: () {}),
+                  ),
+                ),
+                Transform.translate(
+                  offset: Offset.fromDirection(getradiusFromDegree(270),
+                      degThreeTranslatiionAnimation.value * 100),
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationZ(
+                        getradiusFromDegree(rotateAnimation.value))
+                      ..scale(degThreeTranslatiionAnimation.value),
+                    child: CircularButton(
+                        width: 50,
+                        color: Colors.black,
+                        height: 50,
+                        icon: Icon(
+                          Icons.report,
+                          color: Colors.white,
+                        ),
+                        onClick: () {}),
+                  ),
+                ),
+                Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.rotationZ(
+                      getradiusFromDegree(rotateAnimation.value)),
+                  child: CircularButton(
+                      width: 60,
+                      color: Colors.purple,
+                      height: 60,
+                      icon: Icon(
+                        Icons.menu,
+                        color: Colors.white,
+                      ),
+                      onClick: () {
+                        if (animationController.isCompleted) {
+                          animationController.reverse();
+                        } else {
+                          animationController.forward();
+                        }
+                      }),
+                ),
+              ],
+            ))
+      ]),
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(
+      //     Icons.add,
+      //     color: Colors.white,
+      //   ),
+      //   backgroundColor: Colors.purple,
+      //   onPressed: () {
+      //     Navigator.of(context)
+      //         .push(MaterialPageRoute(builder: (context) => ProfileScreen()));
+      //   },
+      // ),
+    );
+  }
+}
+
+class CircularButton extends StatelessWidget {
+  final double width;
+  final double height;
+  final Color color;
+  final Icon icon;
+  final VoidCallback onClick;
+
+  CircularButton(
+      {required this.width,
+      required this.color,
+      required this.height,
+      required this.icon,
+      required this.onClick});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+      width: width,
+      height: height,
+      child: IconButton(
+        icon: icon,
+        enableFeedback: true,
+        onPressed: onClick,
       ),
     );
   }
