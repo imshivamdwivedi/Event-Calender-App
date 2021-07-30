@@ -7,6 +7,7 @@ import 'package:calender/event_provider.dart';
 import 'package:calender/image_picker/image_picker.dart';
 import 'package:calender/searchBar/serach_screen.dart';
 import 'package:calender/share/share_data.dart';
+import 'package:calender/slivers/sliver.dart';
 import 'package:calender/top_tab_bar/tabbed_top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -90,104 +91,103 @@ class _MainPageState extends State<MainPage>
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [
-        CalenderScreen(),
-        Positioned(
-            right: 30,
-            bottom: 30,
-            child: Stack(
-              children: [
-                Transform.translate(
-                  offset: Offset.fromDirection(getradiusFromDegree(180),
-                      degOneTranslatiionAnimation.value * 100),
-                  child: Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.rotationZ(
-                        getradiusFromDegree(rotateAnimation.value))
-                      ..scale(degOneTranslatiionAnimation.value),
-                    child: CircularButton(
-                        width: 50,
-                        color: Colors.red,
-                        height: 50,
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
-                        onClick: () {}),
-                  ),
-                ),
-                Transform.translate(
-                  offset: Offset.fromDirection(getradiusFromDegree(225),
-                      degTwoTranslatiionAnimation.value * 100),
-                  child: Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.rotationZ(
-                        getradiusFromDegree(rotateAnimation.value))
-                      ..scale(degTwoTranslatiionAnimation.value),
-                    child: CircularButton(
-                        width: 50,
-                        color: Colors.pink,
-                        height: 50,
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.white,
-                        ),
-                        onClick: () {}),
-                  ),
-                ),
-                Transform.translate(
-                  offset: Offset.fromDirection(getradiusFromDegree(270),
-                      degThreeTranslatiionAnimation.value * 100),
-                  child: Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.rotationZ(
-                        getradiusFromDegree(rotateAnimation.value))
-                      ..scale(degThreeTranslatiionAnimation.value),
-                    child: CircularButton(
-                        width: 50,
-                        color: Colors.black,
-                        height: 50,
-                        icon: Icon(
-                          Icons.report,
-                          color: Colors.white,
-                        ),
-                        onClick: () {}),
-                  ),
-                ),
-                Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4.rotationZ(
-                      getradiusFromDegree(rotateAnimation.value)),
-                  child: CircularButton(
-                      width: 60,
-                      color: Colors.purple,
-                      height: 60,
-                      icon: Icon(
-                        Icons.menu,
-                        color: Colors.white,
-                      ),
-                      onClick: () {
-                        if (animationController.isCompleted) {
-                          animationController.reverse();
-                        } else {
-                          animationController.forward();
-                        }
-                      }),
-                ),
-              ],
-            ))
-      ]),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(
-      //     Icons.add,
-      //     color: Colors.white,
-      //   ),
-      //   backgroundColor: Colors.purple,
-      //   onPressed: () {
-      //     Navigator.of(context)
-      //         .push(MaterialPageRoute(builder: (context) => ProfileScreen()));
-      //   },
-      // ),
+      body: CalenderScreen(),
+      // Positioned(
+      //     right: 30,
+      //     bottom: 30,
+      //     child: Stack(
+      //       children: [
+      //         Transform.translate(
+      //           offset: Offset.fromDirection(getradiusFromDegree(180),
+      //               degOneTranslatiionAnimation.value * 100),
+      //           child: Transform(
+      //             alignment: Alignment.center,
+      //             transform: Matrix4.rotationZ(
+      //                 getradiusFromDegree(rotateAnimation.value))
+      //               ..scale(degOneTranslatiionAnimation.value),
+      //             child: CircularButton(
+      //                 width: 50,
+      //                 color: Colors.red,
+      //                 height: 50,
+      //                 icon: Icon(
+      //                   Icons.add,
+      //                   color: Colors.white,
+      //                 ),
+      //                 onClick: () {}),
+      //           ),
+      //         ),
+      //         Transform.translate(
+      //           offset: Offset.fromDirection(getradiusFromDegree(225),
+      //               degTwoTranslatiionAnimation.value * 100),
+      //           child: Transform(
+      //             alignment: Alignment.center,
+      //             transform: Matrix4.rotationZ(
+      //                 getradiusFromDegree(rotateAnimation.value))
+      //               ..scale(degTwoTranslatiionAnimation.value),
+      //             child: CircularButton(
+      //                 width: 50,
+      //                 color: Colors.pink,
+      //                 height: 50,
+      //                 icon: Icon(
+      //                   Icons.delete,
+      //                   color: Colors.white,
+      //                 ),
+      //                 onClick: () {}),
+      //           ),
+      //         ),
+      //         Transform.translate(
+      //           offset: Offset.fromDirection(getradiusFromDegree(270),
+      //               degThreeTranslatiionAnimation.value * 100),
+      //           child: Transform(
+      //             alignment: Alignment.center,
+      //             transform: Matrix4.rotationZ(
+      //                 getradiusFromDegree(rotateAnimation.value))
+      //               ..scale(degThreeTranslatiionAnimation.value),
+      //             child: CircularButton(
+      //                 width: 50,
+      //                 color: Colors.black,
+      //                 height: 50,
+      //                 icon: Icon(
+      //                   Icons.report,
+      //                   color: Colors.white,
+      //                 ),
+      //                 onClick: () {}),
+      //           ),
+      //         ),
+      //         Transform(
+      //           alignment: Alignment.center,
+      //           transform: Matrix4.rotationZ(
+      //               getradiusFromDegree(rotateAnimation.value)),
+      //           child: CircularButton(
+      //               width: 60,
+      //               color: Colors.purple,
+      //               height: 60,
+      //               icon: Icon(
+      //                 Icons.menu,
+      //                 color: Colors.white,
+      //               ),
+      //               onClick: () {
+      //                 if (animationController.isCompleted) {
+      //                   animationController.reverse();
+      //                 } else {
+      //                   animationController.forward();
+      //                 }
+      //               }),
+      //         ),
+      //       ],
+      //     ))
+      // ]),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.purple,
+        onPressed: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => SliverExperiment()));
+        },
+      ),
     );
   }
 }
