@@ -5,15 +5,19 @@ import 'package:calender/emai_auth/email_auth_screen.dart';
 
 import 'package:calender/event_provider.dart';
 import 'package:calender/image_picker/image_picker.dart';
+import 'package:calender/phone_auth/phone_authentication.dart';
 import 'package:calender/searchBar/serach_screen.dart';
 import 'package:calender/share/share_data.dart';
 import 'package:calender/slivers/sliver.dart';
 import 'package:calender/top_tab_bar/tabbed_top_bar.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -185,7 +189,7 @@ class _MainPageState extends State<MainPage>
         backgroundColor: Colors.purple,
         onPressed: () {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => SliverExperiment()));
+              MaterialPageRoute(builder: (context) => PhoneAuthenticate()));
         },
       ),
     );
